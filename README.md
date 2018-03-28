@@ -3,7 +3,7 @@ Cordova plugin to use NAIL layer of the EduID Native App
 
 ## Installation
 ```
-cordova plugin add https://github.com/cuttazy/EduIDPlugin
+cordova plugin add https://github.com/BLC-HTWChur/EduIDPlugin
 ```
 
 
