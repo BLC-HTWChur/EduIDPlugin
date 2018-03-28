@@ -1,5 +1,21 @@
+//import {savedData} from 'DataContainer.js';
+var savedData = "test";
+
 var EduIDPlugin = {
      authorizeProtocols: function(protocols, successCallback, errorCallback){
+
+        console.log("this code is runnning on : " + device.platform);
+        if(device.platform == "iOS"){
+            
+            console.log("savedData : " + savedData);
+        }
+
+        var original = successCallback;
+        successCallback = function(msg) {
+            console.log("Callbacks arguments: " + msg);
+            return original.apply(this, arguments);
+        };
+
         cordova.exec(
             successCallback, // success callback function
             errorCallback, // error callback function

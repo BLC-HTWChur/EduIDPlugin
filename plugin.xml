@@ -10,9 +10,11 @@
     </js-module> -->
 
     <asset src="www/EduIDPlugin.js" target="plugins/EduIDPlugin.js" />
+    <asset src="www/DataContainer.js" target="plugins/DataContainer.js" />
     <js-module src="www/EduIDPlugin.js" name="EduIDPlugin">
         <clobbers target="EduIDPlugin" />
     </js-module>
+    
 
     <engines>
         <engine name="cordova" version=">=3.0.0" />
