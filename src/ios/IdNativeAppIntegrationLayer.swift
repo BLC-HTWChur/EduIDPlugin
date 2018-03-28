@@ -51,10 +51,12 @@ class IdNativeAppIntegrationLayer {
         }
         do{
             let json = try JSONSerialization.jsonObject(with: data, options: [])
-            responseData = json
-            for service in json as! [Any] {
-                let jsonEntry = service as! [String : Any]
-                parseEntry(jsonDict: jsonEntry)
+            guard let responseData = json as? [String: Any] else {
+                return
+            }
+            for keyService in responseData.keys {
+                let jsonEntry = responseData[keyService] as! [Any]
+                parseEntry(jsonDict: jsonEntry.first as! [String : Any])
                 return
             }
         } catch {

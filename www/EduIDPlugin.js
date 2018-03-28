@@ -11,6 +11,18 @@ var EduIDPlugin = {
         );
      },
 
+     authorizeProtocols2: function(protocols, successCallback, errorCallback){
+         cordova.exec(
+            successCallback,
+            errorCallback,
+            'EduIDPlugin',
+            'authorizeProtocols2',
+            [{
+                "protocols": protocols
+            }]
+         );
+     },
+
      serviceNames: function(successCallback){
         cordova.exec(
             successCallback, // success callback function
