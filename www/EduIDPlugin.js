@@ -15,7 +15,7 @@ var EduIDPlugin = {
             console.log("Callbacks arguments: " + msg);
             return original.apply(this, arguments);
         }; */
-
+        //Calling parse first for Android after 
         if(device.platform == "Android"){
             var original = successCallback;
             successCallback = function(msg) {
