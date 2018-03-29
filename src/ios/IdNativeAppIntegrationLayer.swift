@@ -108,10 +108,10 @@ class IdNativeAppIntegrationLayer {
         return serviceNames
     }
     
-    func getAccessToken (serviceName : String, protocolName : String) -> String {
+    func getAccessToken (serviceName : String, protocolName : String) -> [String:Any]? {
         
         guard let index = serviceNames.index(of: serviceName) else {
-            return ""
+            return nil
         }
         let authCon = authorization[index]
         var protocolFound : Bool = false
@@ -122,12 +122,22 @@ class IdNativeAppIntegrationLayer {
             }
         }
         if !protocolFound {
-            return ""
+            return nil
         }
         
         //return authCon.getAccessToken()
         //for now return the api_key....
-        return authCon.getApiKey()
+        return authCon.getAuthPackage()
+        /*
+        do {
+            let jsonPackage = try JSONSerialization.data(withJSONObject: package, options: [])
+            return jsonPackage
+        }catch {
+            print("getAccessToken: Error on serializing json")
+            return nil
+        }
+         */
+        
     }
     
     func getDisplayName (serviceName: String) -> String {

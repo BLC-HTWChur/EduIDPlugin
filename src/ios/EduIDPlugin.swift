@@ -172,9 +172,20 @@ import MobileCoreServices
                 return
             }
             
-            let token = nailTmp.getAccessToken(serviceName: serviceName, protocolName: prtcl)
+            guard let token = nailTmp.getAccessToken(serviceName: serviceName, protocolName: prtcl) else {
+                return
+            }
+            /*
+            do {
+                let tokenjson = try JSONSerialization.data(withJSONObject: token, options: [])
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: tokenjson)
+                self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
+            } catch {return}
+            */
+            print("Token : ", token)
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: token)
             self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
+    
         }
     }
     

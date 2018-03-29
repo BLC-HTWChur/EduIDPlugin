@@ -13,9 +13,11 @@ class AuthorizationContainer {
     private var token_type : String
     private var access_token : String
     private var expires_in : Int
+    private var package : [String: Any]
     
     init(authDict : [String: Any]) {
         if authDict.keys.contains("api_key") && authDict.keys.contains("token_type") && authDict.keys.contains("access_token") && authDict.keys.contains("expires_in") {
+            self.package = authDict
             self.api_key = String(describing: authDict["api_key"]!)
             self.token_type = String(describing: authDict["token_type"]!)
             self.access_token = String(describing: authDict["access_token"]!)
@@ -24,6 +26,10 @@ class AuthorizationContainer {
         else{
             fatalError("Keys not found in Authorization tag")
         }
+    }
+    
+    func getAuthPackage() -> [String: Any] {
+        return self.package
     }
     
     func getApiKey () -> String {
