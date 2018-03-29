@@ -9,12 +9,23 @@ var EduIDPlugin = {
             
             console.log("savedData : " + savedData);
         }
-
+        /*
         var original = successCallback;
         successCallback = function(msg) {
             console.log("Callbacks arguments: " + msg);
             return original.apply(this, arguments);
-        };
+        }; */
+
+        if(device.platform == "Android"){
+            var original = successCallback;
+            successCallback = function(msg) {
+                console.log("Calling Parse in android");
+                
+                EduIDPlugin.parse(null, function(){}, function(error){});
+                return original(this, arguments);
+            };
+        }
+        
 
         cordova.exec(
             successCallback, // success callback function
@@ -75,6 +86,19 @@ var EduIDPlugin = {
      },
 
      getServiceToken: function(serviceName, protocolName, successCallback){
+
+        console.log("this code is runnning on : " + device.platform);
+        if(device.platform == "Android"){
+            
+            var original = successCallback;
+            successCallback = function(msg) {
+                //var jsonString = JSON.stringify(msg);
+                var tmp = JSON.parse(msg);
+                console.log(Object.keys(tmp));
+                return original(tmp);
+            };
+        }
+
         cordova.exec(
             successCallback, // success callback function
             null, // error callback function
