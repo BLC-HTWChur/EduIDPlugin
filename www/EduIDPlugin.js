@@ -1,5 +1,26 @@
 //import {savedData} from 'DataContainer.js';
-var savedData = "test";
+var savedData = null;
+
+var store = function(jsonString) {
+    alert("storage type : " + typeof(Storage));
+    if (typeof(Storage) !== "undefined") {
+        localStorage.setItem("jsonString", jsonString);
+    }
+};
+
+var load = function(){
+    if(typeof(Storage) !== "undefined" ){
+        savedData = localStorage.getItem("jsonString");
+        //alert("saved Data : " + savedData);
+    }
+};
+
+var reset = function(){
+    if(typeof(Storage) !== "undefined" ) {
+        localStorage.removeItem("jsonString");
+        savedData = null;
+    }
+};
 
 var EduIDPlugin = {
      authorizeProtocols: function(protocols, successCallback, errorCallback){
@@ -7,16 +28,31 @@ var EduIDPlugin = {
         console.log("this code is runnning on : " + device.platform);
         if(device.platform == "iOS"){
             
-            console.log("savedData : " + savedData);
-        }
-        /*
-        var original = successCallback;
-        successCallback = function(msg) {
-            console.log("Callbacks arguments: " + msg);
-            return original.apply(this, arguments);
-        }; */
-        //Calling parse first for Android after 
-        if(device.platform == "Android"){
+            load();/*
+            if (savedData) {
+                alert("no need to authorize");
+                cordova.exec(
+                    successCallback, // success callback function
+                    null, // error callback function
+                    'EduIDPlugin', // Java Class
+                    'parse', // action name
+                    [{                  // args
+                        "serviceSpec": savedData
+                    }]
+                );
+                return; 
+            } else {
+                alert("no saved data");
+            }*/
+            //console.log("savedData : " + savedData);
+
+            var original = successCallback;
+            successCallback = function(msg){
+                
+                //store(msg);
+                return original(this, arguments);
+            };
+        } else if(device.platform == "Android"){  //Calling parse first for Android after
             var original = successCallback;
             successCallback = function(msg) {
                 console.log("Calling Parse in android");

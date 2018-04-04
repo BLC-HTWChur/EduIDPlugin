@@ -286,6 +286,12 @@ import MobileCoreServices
         }
     }
     
+    @objc(loggedIn:)
+    func loggedIn(commandItem: CDVInvokedUrlCommand){
+        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
+        self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
+    }
+    
     func getNail()-> IdNativeAppIntegrationLayer? {
         if EduIDPlugin.nail == nil{
             return nil
