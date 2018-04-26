@@ -1,6 +1,7 @@
-//import {savedData} from 'DataContainer.js';
+//simple variable, that hold the json string data (for iOS persistency)
 var savedData = null;
 
+//Store the json string data inside the local storage
 var store = function(jsonString) {
     alert("storage type : " + typeof(Storage));
     if (typeof(Storage) !== "undefined") {
@@ -8,6 +9,7 @@ var store = function(jsonString) {
     }
 };
 
+//Load the json string data from the local storage
 var load = function(){
     if(typeof(Storage) !== "undefined" ){
         savedData = localStorage.getItem("jsonString");
@@ -15,6 +17,7 @@ var load = function(){
     }
 };
 
+//Delete the json string data from the local storage
 var reset = function(){
     if(typeof(Storage) !== "undefined" ) {
         localStorage.removeItem("jsonString");
@@ -28,7 +31,8 @@ var EduIDPlugin = {
         console.log("this code is runnning on : " + device.platform);
         if(device.platform == "iOS"){
             
-            load();/*
+            load();
+            /*
             if (savedData) {
                 alert("no need to authorize");
                 cordova.exec(
