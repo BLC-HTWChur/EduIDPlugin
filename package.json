@@ -1,0 +1,33 @@
+{
+  "name": "ch.eduid.provacordovaplugin.NAIL_Cordova",
+  "version": "1.0.0",
+  "description": "Cordova plugin",
+  "cordova": {
+    "id": "ch.eduid.provacordovaplugin.NAIL_Cordova",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EduID-Mobile/NAIL-Cordova.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "",
+  "license": "APL",
+  "bugs": {
+    "url": "https://github.com/EduID-Mobile/NAIL-Cordova/issues"
+  },
+  "homepage": "https://github.com/EduID-Mobile/NAIL-Cordova#readme"
+}
