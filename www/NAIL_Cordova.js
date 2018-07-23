@@ -25,7 +25,7 @@ var reset = function(){
     }
 };
 
-var EduIDPlugin = {
+var NAIL_Cordova = {
      authorizeProtocols: function(protocols, successCallback, errorCallback){
 
         console.log("this code is runnning on : " + device.platform);
@@ -38,7 +38,7 @@ var EduIDPlugin = {
                 cordova.exec(
                     successCallback, // success callback function
                     null, // error callback function
-                    'EduIDPlugin', // Java Class
+                    'NAIL_Cordova', // Java Class
                     'parse', // action name
                     [{                  // args
                         "serviceSpec": savedData
@@ -61,7 +61,7 @@ var EduIDPlugin = {
             successCallback = function(msg) {
                 console.log("Calling Parse in android");
                 
-                EduIDPlugin.parse(null, function(){}, function(error){});
+                NAIL_Cordova.parse(null, function(){}, function(error){});
                 return original(this, arguments);
             };
         }
@@ -70,7 +70,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             errorCallback, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'authorizeProtocols', // action name
             [{                  // args
                 "protocols": protocols
@@ -82,7 +82,7 @@ var EduIDPlugin = {
          cordova.exec(
             successCallback,
             errorCallback,
-            'EduIDPlugin',
+            'NAIL_Cordova',
             'authorizeProtocols2',
             [{
                 "protocols": protocols
@@ -94,7 +94,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             null, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'serviceNames', // action name
             []
         );
@@ -104,7 +104,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             null, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'getEndpointURL', // action name
             [{                  // args
                 "serviceName": serviceName,
@@ -117,7 +117,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             null, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'getDisplayName', // action name
             [{                  // args
                 "serviceName": serviceName
@@ -142,7 +142,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             null, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'getServiceToken', // action name
             [{                  // args
                 "serviceName": serviceName,
@@ -155,7 +155,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             errorCallback, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'getServiceUrl', // action name
             [{                  // args
                 "serviceName": serviceName
@@ -167,7 +167,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             null, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'removeService', // action name
             [{                  // args
                 "serviceName": serviceName
@@ -179,7 +179,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             null, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'clearAllServices', // action name
             []
         );
@@ -189,7 +189,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             null, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'serialize', // action name
             []
         );
@@ -199,7 +199,7 @@ var EduIDPlugin = {
         cordova.exec(
             successCallback, // success callback function
             errorCallback, // error callback function
-            'EduIDPlugin', // Java Class
+            'NAIL_Cordova', // Java Class
             'parse', // action name
             [{                  // args
                 "serviceSpec": serviceSpec
@@ -209,4 +209,4 @@ var EduIDPlugin = {
 
 }
 
-module.exports = EduIDPlugin;
+module.exports = NAIL_Cordova;

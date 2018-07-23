@@ -3,7 +3,7 @@ Cordova plugin to use NAIL layer of the EduID Native App
 
 ## Installation
 ```
-cordova plugin add https://github.com/EduID-Mobile/NAIL-Cordova
+cordova plugin add https://github.com/EduID-Mobile/NAIL_Cordova
 ```
 
 
@@ -26,7 +26,7 @@ var success = function() {
 var error = function(message) { 
     alert("Error! " + message); 
 };
-EduIDPlugin.authorizeProtocols(protocols, success, error);
+NAIL_Cordova.authorizeProtocols(protocols, success, error);
 ```
 
 ### getServiceToken(serviceName, success, error)
@@ -45,7 +45,7 @@ var success = function(token) {
 var error = function(message) { 
     alert("Error! " + message); 
 };
-EduIDPlugin.getServiceToken(
+NAIL_Cordova.getServiceToken(
 	serviceName,
 	protocols[0], 
 	success, 

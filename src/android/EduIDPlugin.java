@@ -32,7 +32,7 @@ import org.apache.cordova.CordovaPlugin;
 /**
  * Created by Yann Cuttaz on 14.06.17.
  */
-public class EduIDPlugin extends CordovaPlugin {
+public class NAIL_Cordova extends CordovaPlugin {
 
     private Context context = null;
     public static final String ACTION_AUTHORIZE_PROTOCOLS = "authorizeProtocols";
@@ -79,17 +79,17 @@ public class EduIDPlugin extends CordovaPlugin {
                 getNAIL().authorizeProtocols(protocols, new SwissEduIDCommunication.AuthorizeProtocolsCallback() {
                     @Override
                     public void onAuthorizeProtocolsFinish() {
-                        Intent openCurrentActivity = new Intent(EduIDPlugin.this.currentActivity, EduIDPlugin.this.currentActivity.getClass());
+                        Intent openCurrentActivity = new Intent(NAIL_Cordova.this.currentActivity, NAIL_Cordova.this.currentActivity.getClass());
                         openCurrentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-                        EduIDPlugin.this.context.startActivity(openCurrentActivity);
+                        NAIL_Cordova.this.context.startActivity(openCurrentActivity);
                         callbackContext.success();
                     }
 
                     @Override
                     public void onAuthorizeProtocolsError(String s) {
-                        Intent openCurrentActivity = new Intent(EduIDPlugin.this.currentActivity, EduIDPlugin.this.currentActivity.getClass());
+                        Intent openCurrentActivity = new Intent(NAIL_Cordova.this.currentActivity, NAIL_Cordova.this.currentActivity.getClass());
                         openCurrentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-                        EduIDPlugin.this.context.startActivity(openCurrentActivity);
+                        NAIL_Cordova.this.context.startActivity(openCurrentActivity);
                         callbackContext.error(s);
                     }
                 });

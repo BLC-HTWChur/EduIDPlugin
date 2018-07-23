@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    id="ch.eduid.provacordovaplugin.EduIDPlugin"
+    id="ch.eduid.provacordovaplugin.NAIL_Cordova"
     version="1.0.0">
-    <name>EduIDPlugin</name>
+    <name>NAIL_Cordova</name>
     <description>Cordova plugin</description>
 
-    <!-- <js-module src="www/EduIDPlugin.js" name="EduIDPlugin">
-        <clobbers target="eduid.EduIDPlugin" />
+    <!-- <js-module src="www/NAIL_Cordova.js" name="NAIL_Cordova">
+        <clobbers target="eduid.NAIL_Cordova" />
     </js-module> -->
 
-    <asset src="www/EduIDPlugin.js" target="plugins/EduIDPlugin.js" />
+    <asset src="www/NAIL_Cordova.js" target="plugins/NAIL_Cordova.js" />
     <asset src="www/DataContainer.js" target="plugins/DataContainer.js" />
-    <js-module src="www/EduIDPlugin.js" name="EduIDPlugin">
-        <clobbers target="EduIDPlugin" />
+    <js-module src="www/NAIL_Cordova.js" name="NAIL_Cordova">
+        <clobbers target="NAIL_Cordova" />
     </js-module>
     
 
@@ -24,15 +24,15 @@
     <platform name="android">
 
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="EduIDPlugin" >
-                <param name="android-package" value="ch.eduid.provacordovaplugin.EduIDPlugin"/>
+            <feature name="NAIL_Cordova" >
+                <param name="android-package" value="ch.eduid.provacordovaplugin.NAIL_Cordova"/>
             </feature>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
-        <source-file src="src/android/EduIDPlugin.java" target-dir="src/ch/eduid/provacordovaplugin" />
+        <source-file src="src/android/NAIL_Cordova.java" target-dir="src/ch/eduid/provacordovaplugin" />
 
 
         <framework src="src/android/EduID.gradle" custom="true" type="gradleReference" />
@@ -42,11 +42,11 @@
     
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
-            <feature name="EduIDPlugin" >
-                <param name="ios-package" value="EduIDPlugin" onload="true"/>
+            <feature name="NAIL_Cordova" >
+                <param name="ios-package" value="NAIL_Cordova" onload="true"/>
             </feature>
         </config-file>
-        <source-file src="src/ios/EduIDPlugin.swift" target-dir="src/ch/eduid/provacordovaplugin"/>
+        <source-file src="src/ios/NAIL_Cordova.swift" target-dir="src/ch/eduid/provacordovaplugin"/>
         <source-file src="src/ios/IdNativeAppIntegrationLayer.swift" target-dir="src/ch/eduid/provacordovaplugin"/>
         <source-file src="src/ios/ApiContainer.swift" target-dir="src/ch/eduid/provacordovaplugin"/>
         <source-file src="src/ios/AuthorizationContainer.swift" target-dir="src/ch/eduid/provacordovaplugin"/>

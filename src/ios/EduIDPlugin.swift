@@ -1,7 +1,7 @@
 import UIKit
 import MobileCoreServices
 
-@objc(EduIDPlugin) class EduIDPlugin : CDVPlugin {
+@objc(NAIL_Cordova) class NAIL_Cordova : CDVPlugin {
     
     var command : CDVInvokedUrlCommand?
     private static var nail: IdNativeAppIntegrationLayer?
@@ -93,7 +93,7 @@ import MobileCoreServices
                         return
                     }
                     let jsonData = data as! Data
-                    EduIDPlugin.nail = IdNativeAppIntegrationLayer(inputData: jsonData)
+                    NAIL_Cordova.nail = IdNativeAppIntegrationLayer(inputData: jsonData)
                     
                     //returned items is in json format
                     let response = self.getNail()!.serialize()
@@ -280,7 +280,7 @@ import MobileCoreServices
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR)
             self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
         }else {
-            EduIDPlugin.nail = nailTmp
+            NAIL_Cordova.nail = nailTmp
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
             self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
         }
@@ -293,10 +293,10 @@ import MobileCoreServices
     }
     
     func getNail()-> IdNativeAppIntegrationLayer? {
-        if EduIDPlugin.nail == nil{
+        if NAIL_Cordova.nail == nil{
             return nil
         }
-        return EduIDPlugin.nail!
+        return NAIL_Cordova.nail!
         
     }
     
