@@ -5,7 +5,7 @@ import NAIL_iOS
 @objc(NAIL_Cordova) class NAIL_Cordova : CDVPlugin {
     
     var command : CDVInvokedUrlCommand?
-    private static var nail: IdNativeAppIntegrationLayer?
+    private static var nail: NativeAppIntegrationLayer?
     
     ///Main function which would be call to open the extension
     @objc(authorizeProtocols:)
@@ -15,59 +15,39 @@ import NAIL_iOS
         print("Args : " , command.arguments)
         
         let arg = command.arguments.first as! [String : Any]
-        var item = arg["protocols"] as! [String]
+        let item = arg["protocols"] as! [String]
         
-        NAILapi.authorizeProtocols(protocols: item){
+        NAILapi.authorizeProtocols(protocolList: item){
             let pluginItem = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: $0)
-            self.commandDelegate.send(x, callbackId: command.callbackId)
+            self.commandDelegate.send(pluginItem, callbackId: command.callbackId)
         }
     }
     
     @objc(authorizeProtocols2:)
     func authorizeProtocols2(command: CDVInvokedUrlCommand){
         
-        // var x = self.getNail()
-        //print("NAIL TEXT non Singleton : " , x.getText())
-        //set the protocols and and singleton for the extension
         let singleton = false
         self.command = command
         print("Args : " , command.arguments)
         print("IN PLUGIN SWIFT , singleton : \(singleton)")
         
         let arg = command.arguments.first as! [String : Any]
-        var item = arg["protocols"] as! [String]
-        item.append(singleton.description)
+        let item = arg["protocols"] as! [String]
         
-        let activityVC = UIActivityViewController(activityItems: item, applicationActivities: nil)
-        if activityVC.responds(to: #selector(getter: self.viewController.popoverPresentationController)) {
-            activityVC.popoverPresentationController?.sourceView = self.viewController.view
+        NAILapi.authorizeProtocols(protocolList: item, singleton: singleton){
+            let pluginItem = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: $0)
+            self.commandDelegate.send(pluginItem, callbackId: command.callbackId)
         }
-        DispatchQueue.main.async {
-            self.viewController.present(activityVC, animated: true, completion: nil)
-        }
-        
-        activityVC.completionWithItemsHandler = {
-            activityType, completed, returnedItems, error in
-            print("BACK FROM EXTENSION")
-            if(returnedItems == nil || returnedItems!.count <= 0){
-                print("No Item found from extension")
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR)
-                self.commandDelegate.send(pluginResult, callbackId: command.callbackId)
-            }else {
-                let item : NSExtensionItem = returnedItems?.first as! NSExtensionItem
-                self.extractDataFromExtension(item: item)
-            }
-        }
+    
     }
     
     @objc(serviceNames:)
     func serviceNames(commandItem: CDVInvokedUrlCommand){
         DispatchQueue.global(qos: .background).async {
-            guard let nailTmp = self.getNail() else {
+            
+            guard let names = NAILapi.serviceNames() else {
                 return
             }
-            
-            let names = nailTmp.getServiceNames()
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: names)
             self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
         }
@@ -76,9 +56,6 @@ import NAIL_iOS
     @objc(getEndpointUrl:)
     func getEndpointUrl(commandItem: CDVInvokedUrlCommand){
         DispatchQueue.global(qos: .background).async {
-            guard let nailTmp = self.getNail() else{
-                return
-            }
             
             let arg = commandItem.arguments.first as! [String: Any]
             
@@ -92,7 +69,9 @@ import NAIL_iOS
                 
             }
             
-            let endpoint = nailTmp.getEndpointUrl(serviceName: serviceName, protocolName: prtcl)
+            guard let endpoint = NAILapi.getEndpointUrl(serviceName: serviceName, protocolName: prtcl ) else {
+                return
+            }
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: endpoint)
             self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
         }
@@ -100,9 +79,6 @@ import NAIL_iOS
     
     @objc(getDisplayName:)
     func getDisplayName(commandItem: CDVInvokedUrlCommand){
-        guard let nailTmp = getNail() else {
-            return
-        }
         
         let arg = commandItem.arguments.first as! [String: Any]
         guard let serviceName = arg["serviceName"] as? String else {
@@ -110,7 +86,9 @@ import NAIL_iOS
             return
         }
         
-        let displayname = nailTmp.getDisplayName(serviceName: serviceName)
+        guard let displayname = NAILapi.getDisplayName(serviceName: serviceName) else {
+            return
+        }
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: displayname)
         self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
     }
@@ -118,9 +96,6 @@ import NAIL_iOS
     @objc(getServiceToken:)
     func getServiceToken(commandItem: CDVInvokedUrlCommand){
         DispatchQueue.global(qos: .background).async {
-            guard let nailTmp = self.getNail() else {
-                return
-            }
             
             let arg = commandItem.arguments.first as! [String: Any]
             
@@ -133,7 +108,7 @@ import NAIL_iOS
                 return
             }
             
-            guard let token = nailTmp.getAccessToken(serviceName: serviceName, protocolName: prtcl) else {
+            guard let token = NAILapi.getServiceToken(serviceName: serviceName, protocolName: prtcl) else {
                 return
             }
             /*
@@ -153,19 +128,17 @@ import NAIL_iOS
     @objc(getServiceUrl:)
     func getServiceUrl(commandItem: CDVInvokedUrlCommand){
         
-        guard let nailTmp = getNail() else {
-            let pluginRes  = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Login is required to use this function")
-            self.commandDelegate.send(pluginRes, callbackId: commandItem.callbackId)
-            return
-        }
-        
         let arg = commandItem.arguments.first as! [String : Any]
         guard let serviceName = arg["serviceName"] as? String else{
             print("getServiceUrl: 'serviceName' Key is not found in Dictionary")
             return
         }
         
-        let serviceUrl = nailTmp.getServiceUrl(serviceName: serviceName)
+        guard let serviceUrl = NAILapi.getServiceUrl(serviceName: serviceName) else {
+            let pluginRes  = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Login is required to use this function")
+            self.commandDelegate.send(pluginRes, callbackId: commandItem.callbackId)
+            return
+        }
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: serviceUrl)
         self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
         
@@ -173,20 +146,20 @@ import NAIL_iOS
     
     @objc(removeService:)
     func removeService(commandItem: CDVInvokedUrlCommand){
-        
+       /* 
         guard let nailTmp = getNail() else {
             let pluginRes  = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Login is required to use this function")
             self.commandDelegate.send(pluginRes, callbackId: commandItem.callbackId)
             return
         }
-        
+        */
         let arg = commandItem.arguments.first as! [String : Any]
         guard let serviceName = arg["serviceName"] as? String else{
             print("getServiceUrl: 'serviceName' Key is not found in Dictionary")
             return
         }
         
-        nailTmp.removeService(serviceName: serviceName)
+        NAILapi.removeService(serviceName: serviceName)
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
         self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
         
@@ -194,20 +167,14 @@ import NAIL_iOS
     
     @objc(clearAllServices:)
     func clearAllServices(commandItem: CDVInvokedUrlCommand){
-        guard let nailTmp = getNail() else {
-            return
-        }
-        nailTmp.clearAllService()
+        NAILapi.clearAllService()
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
         self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
     }
     
     @objc(serialize:)
     func serialize(commandItem: CDVInvokedUrlCommand){
-        guard let nailTmp = getNail() else {
-            return
-        }
-        let serializedString = nailTmp.serialize()
+        let serializedString = NAILapi.serialize()
         if serializedString.count == 0 {
             return
         }
@@ -228,8 +195,16 @@ import NAIL_iOS
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR)
             self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
         }
-        
-        let nailTmp = IdNativeAppIntegrationLayer(serializedStr: serviceSpec)
+        do{
+            try NAILapi.parse(nailSerialization: serviceSpec)
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
+            self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
+        }catch {
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR)
+            self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
+        }
+        /*
+        let nailTmp = NativeAppIntegrationLayer(serializedStr: serviceSpec)
         if nailTmp.getServiceNames().count == 0 {
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR)
             self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
@@ -237,7 +212,7 @@ import NAIL_iOS
             NAIL_Cordova.nail = nailTmp
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
             self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
-        }
+        }*/
     }
     
     @objc(loggedIn:)
@@ -246,13 +221,14 @@ import NAIL_iOS
         self.commandDelegate.send(pluginResult, callbackId: commandItem.callbackId)
     }
     
+    /*
     func getNail()-> IdNativeAppIntegrationLayer? {
         if NAIL_Cordova.nail == nil{
             return nil
         }
         return NAIL_Cordova.nail!
         
-    }
+    }*/
     
     
 }

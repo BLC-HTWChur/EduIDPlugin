@@ -47,7 +47,7 @@
             </feature>
         </config-file>
         <source-file src="src/ios/NAIL_Cordova.swift" target-dir="src/ch/eduid/provacordovaplugin"/>
-        <framework src="Carthage/Build/iOS/NAIL_iOS.framework" custom="true">
+        <framework src="Carthage/Build/iOS/NAIL_iOS.framework" custom="true"/>
     </platform>
 
 </plugin>
