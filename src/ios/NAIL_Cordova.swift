@@ -1,5 +1,6 @@
 import UIKit
 import MobileCoreServices
+import NAIL_iOS
 
 @objc(NAIL_Cordova) class NAIL_Cordova : CDVPlugin {
     
@@ -10,36 +11,15 @@ import MobileCoreServices
     @objc(authorizeProtocols:)
     func authorizeProtocols(command: CDVInvokedUrlCommand){
         
-        //set the protocols and and singleton for the extension
-        let singleton = true
         self.command = command
         print("Args : " , command.arguments)
-        print("IN PLUGIN SWIFT , singleton : \(singleton)")
         
         let arg = command.arguments.first as! [String : Any]
         var item = arg["protocols"] as! [String]
-        item.append(singleton.description)
         
-        let activityVC = UIActivityViewController(activityItems: item, applicationActivities: nil)
-        if activityVC.responds(to: #selector(getter: self.viewController.popoverPresentationController)) {
-            activityVC.popoverPresentationController?.sourceView = self.viewController.view
-        }
-        
-        DispatchQueue.main.async {
-            self.viewController.present(activityVC, animated: true, completion: nil)
-        }
-        
-        activityVC.completionWithItemsHandler = {
-            activityType, completed, returnedItems, error in
-            print("BACK FROM EXTENSION")
-            if(returnedItems == nil || returnedItems!.count <= 0){
-                print("No Item found from extension")
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR)
-                self.commandDelegate.send(pluginResult, callbackId: command.callbackId)
-            }else {
-                let item : NSExtensionItem = returnedItems?.first as! NSExtensionItem
-                self.extractDataFromExtension(item: item)
-            }
+        NAILapi.authorizeProtocols(protocols: item){
+            let pluginItem = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: $0)
+            self.commandDelegate.send(x, callbackId: command.callbackId)
         }
     }
     
@@ -76,32 +56,6 @@ import MobileCoreServices
             }else {
                 let item : NSExtensionItem = returnedItems?.first as! NSExtensionItem
                 self.extractDataFromExtension(item: item)
-            }
-        }
-    }
-    
-    //Extract the data from the extension
-    func extractDataFromExtension(item : NSExtensionItem){
-        DispatchQueue.global(qos: .background).async {
-            
-            let itemProvider = item.attachments?.first as! NSItemProvider
-            
-            if itemProvider.hasItemConformingToTypeIdentifier(kUTTypeJSON as String){
-                itemProvider.loadItem(forTypeIdentifier: kUTTypeJSON as String, options: nil, completionHandler: { (data, error) -> Void in
-                    if error != nil {
-                        print("error on extracting data from extension , \(error.localizedDescription)")
-                        return
-                    }
-                    let jsonData = data as! Data
-                    NAIL_Cordova.nail = IdNativeAppIntegrationLayer(inputData: jsonData)
-                    
-                    //returned items is in json format
-                    let response = self.getNail()!.serialize()
-                    print("DATA SOURCE : \(response)")
-                    
-                    let x = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: response)
-                    self.commandDelegate.send(x, callbackId: self.command?.callbackId)
-                })
             }
         }
     }
