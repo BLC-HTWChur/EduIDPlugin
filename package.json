@@ -10,8 +10,8 @@
     ]
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EduID-Mobile/NAIL-Cordova.git"
+    "type": "github",
+    "url": "https://github.com/EduID-Mobile/NAIL-Cordova"
   },
   "keywords": [
     "ecosystem:cordova",
