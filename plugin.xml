@@ -50,7 +50,7 @@
         <source-file src="src/ios/IdNativeAppIntegrationLayer.swift" target-dir="src/ch/eduid/provacordovaplugin"/>
         <source-file src="src/ios/ApiContainer.swift" target-dir="src/ch/eduid/provacordovaplugin"/>
         <source-file src="src/ios/AuthorizationContainer.swift" target-dir="src/ch/eduid/provacordovaplugin"/>
-        <framework src="Carthage/Build/iOS/NAIL_iOS.framework" custom="true">
+       <!-- <framework src="Carthage/Build/iOS/NAIL_iOS.framework" custom="true"> -->
     </platform>
 
 </plugin>
