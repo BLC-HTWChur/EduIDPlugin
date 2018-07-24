@@ -1,9 +1,9 @@
 {
-  "name": "ch.eduid.provacordovaplugin.NAIL_Cordova",
+  "name": "ch.eduid.provacordovaplugin.NAIL-Cordova",
   "version": "1.0.0",
   "description": "Cordova plugin",
   "cordova": {
-    "id": "ch.eduid.provacordovaplugin.NAIL_Cordova",
+    "id": "ch.eduid.provacordovaplugin.NAIL-Cordova",
     "platforms": [
       "android",
       "ios"

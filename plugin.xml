@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    id="ch.eduid.provacordovaplugin.NAIL_Cordova"
+    id="ch.eduid.provacordovaplugin.NAIL-Cordova"
     version="1.0.0">
     <name>NAIL_Cordova</name>
     <description>Cordova plugin</description>
@@ -25,7 +25,7 @@
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="NAIL_Cordova" >
-                <param name="android-package" value="ch.eduid.provacordovaplugin.NAIL_Cordova"/>
+                <param name="android-package" value="ch.eduid.provacordovaplugin.NAIL-Cordova"/>
             </feature>
         </config-file>
 
