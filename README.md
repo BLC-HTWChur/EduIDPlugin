@@ -3,9 +3,14 @@ Cordova plugin to use NAIL layer of the EduID Native App
 
 ## Installation
 ```
-cordova plugin add https://github.com/EduID-Mobile/NAIL-Cordova
+cordova plugin add https://github.com/EduID-Mobile/NAIL-Cordova --nofetch
 ```
 
+*Note :: for the iOS side*
+Since the plugin itself depends on the NAIL-iOS framework, make sure to set the xCode Project correctly so the framework could be found inside the project.
+
+Please check the the "Framework Search Paths" in Build Setting and insert the correct path of the framework
+and also add the framework NAIL-iOS to the target's general setting under the section Embedded Binaries (Drag & Drop the framework to this section)
 
 ## Methods
 ### authorizeProtocols(protocols, success, error)
