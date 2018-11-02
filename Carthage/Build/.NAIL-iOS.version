@@ -1,9 +1,9 @@
 {
-  "commitish" : "7589a5c3df56f6ab0916d102f146532ff0d9f39c",
+  "commitish" : "7641b20edb46352cbde3e48c0a46eb81220b2f83",
   "iOS" : [
     {
       "name" : "NAIL_iOS",
-      "hash" : "71f8e2c2e66aecb97a5de45ebf37f033d0edc73675fb56fce5b30e624c5a3417"
+      "hash" : "e81263588b3ae959cb6f658bbd76d5c38d29e6e27d693fd38aea6e76b8e34473"
     }
   ]
 }
